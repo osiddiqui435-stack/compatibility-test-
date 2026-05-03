@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compatibility Test - College Fest 2024</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-canvas" id="bgCanvas"></div>
+    
+    <!-- Mode Selection Screen -->
+    <div class="screen active" id="modeScreen">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100" class="heart-icon">
+                        <path class="heart-path" d="M50 88 C20 60 5 40 5 25 C5 10 20 0 35 0 C45 0 50 8 50 8 C50 8 55 0 65 0 C80 0 95 10 95 25 C95 40 80 60 50 88Z"/>
+                    </svg>
+                </div>
+                <h1 class="title">Compatibility Test</h1>
+                <p class="subtitle">Find out how well you really know each other</p>
+            </div>
+            
+            <div class="mode-grid">
+                <div class="mode-category">
+                    <h2 class="category-title male-friends">Male Friends</h2>
+                    <div class="mode-buttons">
+                        <button class="mode-btn male" data-mode="male-1">1 Year</button>
+                        <button class="mode-btn male" data-mode="male-2">2 Years</button>
+                        <button class="mode-btn male" data-mode="male-3">3+ Years</button>
+                    </div>
+                </div>
+                
+                <div class="mode-category">
+                    <h2 class="category-title female-friends">Female Friends</h2>
+                    <div class="mode-buttons">
+                        <button class="mode-btn female" data-mode="female-1">1 Year</button>
+                        <button class="mode-btn female" data-mode="female-2">2 Years</button>
+                        <button class="mode-btn female" data-mode="female-3">3+ Years</button>
+                    </div>
+                </div>
+                
+                <div class="mode-category">
+                    <h2 class="category-title couples">Boy & Girl friend</h2>
+                    <div class="mode-buttons">
+                        <button class="mode-btn couple" data-mode="couple-1">1 Year</button>
+                        <button class="mode-btn couple" data-mode="couple-2">1+ Years</button>
+                    </div>
+                </div>
+                
+                <div class="mode-category">
+                    <h2 class="category-title married">Married Couple</h2>
+                    <div class="mode-buttons">
+                        <button class="mode-btn married-btn" data-mode="married-real">Real</button>
+                        <button class="mode-btn married-btn fake" data-mode="married-fake">Fake / Just for Fun</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="leaderboard-btn" id="viewLeaderboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+                View Leaderboard
+            </button>
+        </div>
+    </div>
+    
+    <!-- Name Input Screen -->
+    <div class="screen" id="nameScreen">
+        <div class="container narrow">
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+            </div>
+            <h2 class="screen-title">Enter Your Names</h2>
+            <div class="name-inputs">
+                <div class="input-group">
+                    <label for="player1Name">Player 1 (The Answerer)</label>
+                    <input type="text" id="player1Name" placeholder="Enter name..." maxlength="15">
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="input-group">
+                    <label for="player2Name">Player 2 (The Guesser)</label>
+                    <input type="text" id="player2Name" placeholder="Enter name..." maxlength="15">
+                </div>
+            </div>
+            <button class="primary-btn" id="startGame" disabled>Let's Begin</button>
+            <button class="back-btn" id="backToModes">Back</button>
+        </div>
+    </div>
+    
+    <!-- Player 1 Screen -->
+    <div class="screen" id="player1Screen">
+        <div class="container">
+            <div class="player-header">
+                <div class="player-badge p1">Player 1</div>
+                <span class="player-name" id="p1DisplayName"></span>
+            </div>
+            <div class="secrecy-notice">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                <span>Answer Secretly - Player 2, look away!</span>
+            </div>
+            <div class="question-counter">
+                Question <span id="p1QuestionNum">1</span> of 5
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="p1Progress"></div>
+            </div>
+            <div class="question-card" id="p1QuestionCard">
+                <p class="question-text" id="p1Question"></p>
+                <div class="options-grid" id="p1Options"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Transition Screen -->
+    <div class="screen" id="transitionScreen">
+        <div class="container narrow">
+            <div class="transition-content">
+                <div class="swap-animation">
+                    <div class="player-swap p1-swap">P1</div>
+                    <div class="swap-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M7 16L17 6M17 6H7M17 6V16"/>
+                        </svg>
+                    </div>
+                    <div class="player-swap p2-swap">P2</div>
+                </div>
+                <h2 class="transition-title">Switch Players!</h2>
+                <p class="transition-text">Player 1, step away from the screen.</p>
+                <p class="transition-text highlight">Player 2, get ready to guess!</p>
+                <button class="primary-btn pulse" id="player2Ready">I'm Player 2 - Ready!</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Player 2 Screen -->
+    <div class="screen" id="player2Screen">
+        <div class="container">
+            <div class="player-header">
+                <div class="player-badge p2">Player 2</div>
+                <span class="player-name" id="p2DisplayName"></span>
+            </div>
+            <div class="guess-notice">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>Guess what <span id="p1NameDisplay"></span> answered!</span>
+            </div>
+            <div class="question-counter">
+                Question <span id="p2QuestionNum">1</span> of 5
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill player2" id="p2Progress"></div>
+            </div>
+            <div class="question-card" id="p2QuestionCard">
+                <p class="question-text" id="p2Question"></p>
+                <div class="options-grid" id="p2Options"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Screen -->
+    <div class="screen" id="resultsScreen">
+        <div class="container">
+            <div class="results-card">
+                <div class="score-circle" id="scoreCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="score-bg" cx="50" cy="50" r="45"/>
+                        <circle class="score-fill" id="scoreFill" cx="50" cy="50" r="45"/>
+                    </svg>
+                    <div class="score-text">
+                        <span class="score-number" id="finalScore">0</span>
+                        <span class="score-label">/ 5</span>
+                    </div>
+                </div>
+                <h2 class="result-title" id="resultTitle">Calculating...</h2>
+                <p class="result-message" id="resultMessage"></p>
+                <div class="answers-review" id="answersReview"></div>
+                <div class="result-actions">
+                    <button class="primary-btn" id="playAgain">Play Again</button>
+                    <button class="secondary-btn" id="saveScore" style="display: none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        Save to Leaderboard
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="confetti-container" id="confettiContainer"></div>
+    </div>
+    
+    <!-- Leaderboard Screen -->
+    <div class="screen" id="leaderboardScreen">
+        <div class="container narrow">
+            <h2 class="screen-title">Hall of Fame</h2>
+            <p class="subtitle">Top Compatible Duos</p>
+            <div class="leaderboard-list" id="leaderboardList"></div>
+            <button class="primary-btn" id="backFromLeaderboard">Back to Game</button>
+        </div>
+    </div>
+    
+    <!-- Audio Context Initialization -->
+    <div class="audio-prompt" id="audioPrompt">
+        <div class="audio-content">
+            <h2>Ready to Play?</h2>
+            <p>Click anywhere to enable sound effects</p>
+            <button class="primary-btn">Start Game</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
